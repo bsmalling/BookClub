@@ -1,0 +1,272 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlCommands>
+	<!--
+	NOTE: This is not a safe way to store SQL commands! In production, these would be stored procedures.
+	Since my primary goal is to review DevExpress WinForms development, I took this shortcut because I
+	just need a working data layer as quickly as possible.
+	-->
+	<Books>
+		<Create>
+			INSERT INTO "Books"
+				("Title", "Author", "Description", "Pages", "ISBN", "ASIN", "ThumbnailId", "Published")
+			VALUES
+				(@Title, @Author, @Description, @Pages, @ISBN, @ASIN, @ThumbnailId, @Published);
+			SELECT scope_identity();
+		</Create>
+		<Read>
+			SELECT "Id", "Title", "Author", "Description", "Pages", "ISBN", "ASIN", "ThumbnailId", "Published"
+			FROM "Books" WHERE "Id" = @Id AND "Deleted" = 0;
+		</Read>
+		<Update>
+			UPDATE "Books" SET
+				"Title" = @Title,
+				"Author" = @Author,
+				"Description" = @Description,
+				"Pages" = @Pages,
+				"ISBN" = @ISBN,
+				"ASIN" = @ASIN,
+				"ThumbnailId" = @ThumbnailId,
+				"Published" = @Published
+			WHERE "Id" = @Id AND "Deleted" = 0;
+		</Update>
+		<Delete>
+			DELETE FROM "Comments" WHERE "ParentType" = @ParentType AND "ParentId" = @Id;
+			UPDATE "Books" SET "Deleted" = 1 WHERE "Id" = @Id AND "Deleted" = 0;
+		</Delete>
+		<SelectAll>
+			SELECT "Id", "Title", "Author", "Description", "Pages", "ISBN", "ASIN", "ThumbnailId", "Published"
+			FROM "Books" WHERE "Deleted" = 0
+			ORDER BY "Title";
+		</SelectAll>
+	</Books>
+	<Comments>
+		<Create>
+			INSERT INTO "Comments"
+				("ParentType", "ParentId", "Text", "UserId", "Created")
+			VALUES
+				(@ParentType, @ParentId, @Text, @UserId, @Created);
+			SELECT scope_identity();
+		</Create>
+		<Read>
+			SELECT "Id", "ParentType", "ParentId", "Text", "UserId", "Created"
+			FROM "Comments" WHERE "Id" = @Id AND "Deleted" = 0;
+		</Read>
+		<ReadByParent>
+			SELECT "Id", "ParentType", "ParentId", "Text", "UserId", "Created"
+			FROM "Comments" WHERE "ParentType" = @ParentType AND "ParentId" = @ParentId;
+		</ReadByParent>
+		<Update>
+			UPDATE "Comments" SET
+				"ParentType" = @ParentType,
+				"ParentId" = @ParentId,
+				"Text" = @Text,
+				"UserId" = @UserId,
+				"Created" = @Created
+			WHERE "Id" = @Id;
+		</Update>
+		<Delete>
+			DELETE FROM "Comments" WHERE "Id" = @Id;
+		</Delete>
+		<DeleteByParent>
+			DELETE FROM "Comments" WHERE "ParentType" = @ParentType AND "ParentId" = @ParentId;
+		</DeleteByParent>
+		<SelectAll>
+			SELECT "Id", "ParentType", "ParentId", "Text", "UserId", "Created"
+			FROM "Comments" ORDER BY "Created" DESC;
+		</SelectAll>
+	</Comments>
+	<Invitations>
+		<Create>
+			INSERT INTO "Invitations"
+				("Code", "Expiration", "UserId", "Claimed", "Notes")
+			VALUES
+				(@Code, @Expiration, @UserId, @Claimed, @Notes);
+		</Create>
+		<Read>
+			SELECT "Code", "Expiration", "UserId", "Claimed", "Notes"
+			FROM "Invitations" WHERE "Code" = @Code AND "Claimed" = 0 AND "Expiration" > GETDATE();
+		</Read>
+		<ReadByUser>
+			SELECT "Code", "Expiration", "UserId", "Claimed", "Notes"
+			FROM "Invitations" WHERE "Userid" = @UserId
+		</ReadByUser>
+		<Update>
+			UPDATE "Invitations" SET
+				"Code" = @Code,
+				"Expiration" = @Expiration,
+				"UserId" = @UserId,
+				"Claimed" = @Claimed,
+				"Notes" = @Notes
+			WHERE "Code" = @Code
+		</Update>
+		<Delete>
+			DELETE FROM "Comments" WHERE "Code" = @Code;
+		</Delete>
+		<SelectAll>
+			SELECT "Code", "Expiration", "UserId", "Claimed", "Notes"
+			FROM "Invitations"
+			ORDER BY "Address1";
+		</SelectAll>
+	</Invitations>
+	<Locations>
+		<Create>
+			INSERT INTO "Locations"
+				("Address1", "Address2", "City", "State", "Zip", "Description")
+			VALUES
+				(@Address1, @Address2, @City, @State, @Zip, @Description);
+			SELECT scope_identity();
+		</Create>
+		<Read>
+			SELECT "Id", "Address1", "Address2", "City", "State", "Zip", "Description"
+			FROM "Locations" WHERE "Id" = @Id AND "Deleted" = 0;
+		</Read>
+		<Update>
+			UPDATE "Locations" SET
+				"Address1" = @Address1,
+				"Address2" = @Address2,
+				"City" = @City,
+				"State" = @State,
+				"Zip" = @Zip,
+				"Description" = @Description
+			WHERE "Id" = @Id AND "Deleted" = 0;
+		</Update>
+		<Delete>
+			UPDATE "Locations" SET "Deleted" = 1 WHERE "Id" = @Id AND "Deleted" = 0;
+		</Delete>
+		<SelectAll>
+			SELECT "Id", "Address1", "Address2", "City", "State", "Zip", "Description"
+			FROM "Locations" WHERE "Deleted" = 0
+			ORDER BY "Address1";
+		</SelectAll>
+	</Locations>
+	<Meetings>
+		<Create>
+			INSERT INTO "Meetings"
+				("BookId", "HostId", "LocationId", "MeetTime", "Description")
+			VALUES
+				(@BookId, @HostId, @LocationId, @MeetTime, @Description);
+			SELECT scope_identity();
+		</Create>
+		<Read>
+			SELECT "Id", "BookId", "HostId", "LocationId", "MeetTime", "Description"
+			FROM "Meetings" WHERE "Id" = @Id;
+		</Read>
+		<NextMeeting>
+			SELECT TOP 1 "Id", "BookId", "HostId", "LocationId", "MeetTime", "Description"
+			FROM "Meetings" WHERE "MeetTime" >= @NowTime ORDER BY "MeetTime" ASC
+		</NextMeeting>
+		<Update>
+			UPDATE "Meetings" SET
+				"BookId" = @BookId,
+				"HostId" = @HostId,
+				"LocationId" = @LocationId,
+				"MeetTime" = @MeetTime,
+				"Description" = @Description
+			WHERE "Id" = @Id;
+		</Update>
+		<Delete>
+			DELETE FROM "Comments" WHERE "ParentType" = 4 AND "ParentId" IN
+				(SELECT "Id" FROM "Recommendations" WHERE "MeetingId" = @Id);
+			DELETE FROM "Recommendations" WHERE "MeetingId" = @Id;
+			DELETE FROM "Comments" WHERE "ParentType" = @ParentType AND "ParentId" = @Id;
+			DELETE FROM "Meetings" WHERE "Id" = @Id;
+		</Delete>
+		<SelectAll>
+			SELECT "Id", "BookId", "HostId", "LocationId", "MeetTime", "Description"
+			FROM "Meetings"
+			ORDER BY "MeetTime" DESC;
+		</SelectAll>
+	</Meetings>
+	<Recommendations>
+		<Create>
+			INSERT INTO "Recommendations"
+				("MeetingId", "BookId", "UserId", "Created")
+			VALUES
+				(@MeetingId, @BookId, @UserId, @Created);
+			SELECT scope_identity();
+		</Create>
+		<Read>
+			SELECT "Id", "MeetingId", "BookId", "UserId", "Created"
+			FROM "Recommendations" WHERE "Id" = @Id;
+		</Read>
+		<ReadByMeeting>
+			SELECT "Id", "MeetingId", "BookId", "UserId", "Created"
+			FROM "Recommendations" WHERE "MeetingId" = @MeetingId
+			ORDER BY "Created" DESC;
+		</ReadByMeeting>
+		<Update>
+			UPDATE "Recommendations" SET
+				"MeetingId" = @MeetingId,
+				"BookId" = @BookId,
+				"UserId" = @UserId,
+				"Created" = @Created
+			WHERE "Id" = @Id;
+		</Update>
+		<Delete>
+			DELETE FROM "Comments" WHERE "ParentType" = @ParentType AND "ParentId" = @Id;
+			DELETE FROM "Recommendations" WHERE "Id" = @Id;
+		</Delete>
+		<DeleteByMeeting>
+			DELETE FROM "Comments" WHERE "ParentType" = @ParentType AND "ParentId" IN
+				(SELECT "Id" FROM "Recommendations" WHERE "MeetingId" = @MeetingId);
+			DELETE FROM "Recommendations" WHERE "MeetingId" = @MeetingId;
+		</DeleteByMeeting>
+		<SelectAll>
+			SELECT "Id", "MeetingId", "BookId", "UserId", "Created"
+			FROM "Recommendations";
+		</SelectAll>
+	</Recommendations>
+	<Thumbnails>
+		<Create>
+			INSERT INTO "Thumbnails"
+				("Image")
+			VALUES
+				(@Image);
+			SELECT scope_identity();
+		</Create>
+		<Read>
+			SELECT "Id", "Image"
+			FROM "Thumbnails" WHERE "Id" = @Id;
+		</Read>
+		<Update>
+			UPDATE "Thumbnails" SET
+				"Image" = @Image
+			WHERE "Id" = @Id;
+		</Update>
+		<Delete>
+			DELETE FROM "Thumbnails" WHERE "Id" = @Id;
+		</Delete>
+		<SelectAll>
+			SELECT "Id", "Image" FROM "Thumbnails";
+		</SelectAll>
+	</Thumbnails>
+	<Users>
+		<Create>
+			INSERT INTO "Users"
+				("FirstName", "LastName", "AboutMe", "Role", "NormalizedUserName")
+			VALUES
+				(@FirstName, @LastName, @AboutMe, @Role, @NormalizedUserName);
+			SELECT scope_identity();
+		</Create>
+		<Read>
+			SELECT "Id", "FirstName", "LastName", "AboutMe", "NormalizedUserName"
+			FROM "Users" WHERE "Id" = @Id AND "Deleted" = 0;
+		</Read>
+		<Update>
+			UPDATE "Users" SET
+				"FirstName" = @FirstName,
+				"LasName" = @LastName,
+				"AboutMe" = @AboutMe,
+				"NormalizedUserName" = @NormalizedUserName
+			WHERE "Id" = @Id AND "Deleted" = 0;
+		</Update>
+		<Delete>
+			UPDATE "Users" SET "Deleted" = 1 WHERE "Id" = @Id AND "Deleted" = 0;
+		</Delete>
+		<SelectAll>
+			SELECT "Id", "FirstName", "LastName", "AboutMe", "NormalizedUserName"
+			FROM "Users" WHERE "Deleted" = 0
+			ORDER BY "LastName", "FirstName";
+		</SelectAll>
+	</Users>
+</SqlCommands>

@@ -1,0 +1,91 @@
+﻿@page "/"
+@using BookClub.Models;
+@using BookClub.Services.Interfaces;
+@inject IMeetingService meetingService
+
+<PageTitle>Home</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <h1>Welcome, FirstName!</h1>
+        @if (nextMeeting != null)
+        {
+            <table>
+                <tr>
+                    <td>Next Meeting:</td>
+                    <td>@nextMeeting.MeetTime.ToString("dddd, MMMM d, yyyy &#64; h:mm tt}")</td>
+                </tr>
+                <tr>
+                    <td>Book:</td>
+                    <td>@nextMeeting.Book?.Title</td>
+                </tr>
+                <tr>
+                    <td>Author:</td>
+                    <td>@nextMeeting.Book?.Author</td>
+                </tr>
+                <tr>
+                    <td>Host:</td>
+                    <td>@nextMeeting.Host</td>
+                </tr>
+                <tr>
+                    <td>Address:</td>
+                    <td>@nextMeeting.Location?.Address1</td>
+                </tr>
+                @if (!String.IsNullOrEmpty(nextMeeting?.Location?.Address2))
+                {
+                    <tr>
+                        <td></td>
+                        <td>@nextMeeting.Location.Address2</td>
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td>@cityStateZip</td>
+                </tr>
+            </table>
+        }
+        else
+        {
+            <span>There are no upcoming meetings. <a href="new_meeting">Create one!</a></span>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <h1>Greetings!</h1>
+        Welcome to BookClub!<br />
+        If you aleady have an account, please <a href="Identity/Account/Login">login</a>.<br />
+        <br />
+        If you are new, please enter your invitation code and then register.<br />
+        <br />
+        <form>
+            <table>
+                <tr>
+                    <td>Invitation Code:</td>
+                    <td><input /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td align="right"><button type="submit">Submit</button></td>
+                </tr>
+            </table>
+        </form>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+    private Meeting? nextMeeting;
+    private string? cityStateZip;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        nextMeeting = meetingService.NextMeeting();
+        if (nextMeeting != null)
+        {
+            cityStateZip = nextMeeting.Location?.City + ", " + nextMeeting.Location?.State;
+            if (nextMeeting.Location?.Zip != null) cityStateZip += "  " + nextMeeting.Location.Zip;
+        }
+    }
+
+}

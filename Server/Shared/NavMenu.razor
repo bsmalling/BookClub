@@ -1,0 +1,60 @@
+﻿@using BookClub.Models
+
+<div class="top-row ps-3 navbar navbar-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="">BookClub</a>
+        <img src="images/bookclub.png" height="64" width="64" />
+    </div>
+</div>
+
+<AuthorizeView>
+    <div class="nav-scrollable">
+        <nav class="flex-column">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <span class="oi oi-home" aria-hidden="true"></span> Home
+                </NavLink>
+            </div>
+            <div class="nav-item px-5">
+                <NavLink class="nav-link" href="meetings">
+                    <span class="oi oi-clock" aria-hidden="true"></span> Meetings
+                </NavLink>
+            </div>
+            <div class="nav-item px-5">
+                <NavLink class="nav-link" href="books">
+                    <span class="oi oi-book" aria-hidden="true"></span> Books
+                </NavLink>
+            </div>
+            <div class="nav-item px-5">
+                <NavLink class="nav-link" href="locations">
+                    <span class="oi oi-map" aria-hidden="true"></span> Locations
+                </NavLink>
+            </div>
+            <div class="nav-item px-5">
+                <NavLink class="nav-link" href="my_invitations">
+                    <span class="oi oi-envelope-closed" aria-hidden="true"></span> My Invitations
+                </NavLink>
+            </div>
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                    <span class="oi oi-shield" aria-hidden="true"></span> Admin
+                </NavLink>
+            </div>
+            <div class="nav-item px-5">
+                <NavLink class="nav-link" href="users">
+                    <span class="oi oi-people" aria-hidden="true"></span> Users
+                </NavLink>
+            </div>
+            <div class="nav-item px-5">
+                <NavLink class="nav-link" href="invitations">
+                    <span class="oi oi-box" aria-hidden="true"></span> Invitations
+                </NavLink>
+            </div>
+            <div class="nav-item px-5">
+                <NavLink class="nav-link" href="settings">
+                    <span class="oi oi-wrench" aria-hidden="true"></span> Settings
+                </NavLink>
+            </div>
+        </nav>
+    </div>
+</AuthorizeView>

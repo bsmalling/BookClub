@@ -1,0 +1,25 @@
+﻿@page "/settings"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@using BookClub.Models
+@inject BookClubRestClient bookClubRestClient
+
+<h1>Settings</h1>
+
+<table>
+    <tr>
+        <th>Setting</th>
+        <th>Value</th>
+    </tr>
+    @*@foreach (var setting in settings)
+        {
+            <tr>
+                <td>
+                    @setting.Name
+                </td>
+                <td>
+                    @setting.Value
+                </td>
+            </tr>
+        }*@
+</table>
