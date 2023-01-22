@@ -84,7 +84,7 @@
 		</Create>
 		<Read>
 			SELECT "Code", "Expiration", "UserId", "Claimed", "Notes"
-			FROM "Invitations" WHERE "Code" = @Code AND "Claimed" = 0 AND "Expiration" > GETDATE();
+			FROM "Invitations" WHERE "Code" = @Code AND "Claimed" = 0 AND "Expiration" >= @NowDate;
 		</Read>
 		<ReadByUser>
 			SELECT "Code", "Expiration", "UserId", "Claimed", "Notes"
@@ -104,8 +104,9 @@
 		</Delete>
 		<SelectAll>
 			SELECT "Code", "Expiration", "UserId", "Claimed", "Notes"
-			FROM "Invitations"
-			ORDER BY "Address1";
+			FROM "Invitations" inv
+			LEFT OUTER JOIN "Users" usr ON usr.Id = inv.UserId
+			ORDER BY usr.LastName;
 		</SelectAll>
 	</Invitations>
 	<Locations>

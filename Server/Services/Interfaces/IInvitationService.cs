@@ -7,7 +7,7 @@ namespace BookClub.Services.Interfaces
     {
 
         BM.Invitation Create(BM.Invitation Invitation, bool loadChildren = true);
-        BM.Invitation? Read(string code, bool loadChildren = true);
+        BM.Invitation? Read(string code, DateTime? nowDate = null, bool loadChildren = true);
         List<BM.Invitation> ReadByUser(int userId, bool loadChildren = true);
         bool Update(BM.Invitation Invitation, bool loadChildren = true);
         int UpdateAll(List<BM.Invitation> invitations, bool loadChildren = true);

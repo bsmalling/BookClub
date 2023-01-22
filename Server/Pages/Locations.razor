@@ -1,0 +1,30 @@
+﻿@page "/locations"
+@using BookClub.Models;
+@using BookClub.Services.Interfaces;
+@inject ILocationService locationService
+
+<PageTitle>Locations</PageTitle>
+
+<RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@locations" TItem="Location" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <Columns>
+        <RadzenDataGridColumn TItem="Location" Property="Address1" Title="Address1" Frozen="true" Width="200px" />
+        <RadzenDataGridColumn TItem="Location" Property="Address2" Title="Address2" Frozen="true" Width="200px" />
+        <RadzenDataGridColumn TItem="Location" Property="City" Title="City" Frozen="true" Width="160px" />
+        <RadzenDataGridColumn TItem="Location" Property="State" Title="State" Frozen="true" Width="160px" />
+        <RadzenDataGridColumn TItem="Location" Property="Zip" Title="Zip" Frozen="true" Width="160px" />
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+
+    private IEnumerable<Location>? locations;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        locations = locationService.SelectAll();
+    }
+
+}

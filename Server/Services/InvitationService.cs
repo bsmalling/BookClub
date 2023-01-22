@@ -38,11 +38,14 @@ namespace BookClub.Services
             return invitation;
         }
 
-        public BM.Invitation? Read(string code, bool loadChildren = true)
+        public BM.Invitation? Read(string code, DateTime? nowDate = null, bool loadChildren = true)
         {
+            if (nowDate == null) nowDate = DateTime.Now;
+
             string sqlCommand = GetSqlCommand("Invitations/Read");
             SqlCommand command = new SqlCommand(sqlCommand, m_context.GetConnection());
             command.Parameters.AddWithValue("@Code", code);
+            command.Parameters.AddWithValue("@NowDate", nowDate);
 
             BM.Invitation? invitation = null;
             using (SqlDataReader reader = command.ExecuteReader())
@@ -173,6 +176,9 @@ namespace BookClub.Services
                     invitations.Add(invitation);
                 }
             }
+            if (loadChildren)
+                foreach (var invitation in invitations)
+                    LoadObjects(invitation);
             return invitations;
         }
 

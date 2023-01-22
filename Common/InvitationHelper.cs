@@ -7,11 +7,11 @@ namespace BookClub.Common
 	public static class InvitationHelper
 	{
 
-		// Possibilities = 32^8 = 1.1*10^12
+		// Possibilities = 29^8 = 5.0*10^11 = 50,024,641,300
 		private const int CODE_LENGTH = 8;
 
-		// Removed 0, O, 1, l, and I because they can look ambiguous
-		private const string CHARACTERS = "23456789ABCDEFGHJKLMNPQRSTUVWXYZ";
+		// Removed 0, O, 1, l, I, 5, and S because they can look ambiguous
+		private const string CHARACTERS = "2346789ABCDEFGHJKLMNPQRTUVWXYZ";
 
 		// Example code: "Lk3h-Bn92"
 		public static string GenerateCode()

@@ -71,6 +71,11 @@ namespace BookClub.Models
             Description = description;
         }
 
+        public override string ToString()
+        {
+            return MeetTime.ToString("dddd, MMMM d, yyyy @ h:mm tt");
+        }
+
         public override bool Equals(object? obj)
         {
             var item = obj as Meeting;

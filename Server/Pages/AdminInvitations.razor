@@ -1,0 +1,30 @@
+﻿@page "/admin_invitations"
+@using BookClub.Models
+@using BookClub.Services.Interfaces
+@inject IInvitationService invitationService
+
+<PageTitle>Invitations</PageTitle>
+
+<RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@invitations" TItem="Invitation" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <Columns>
+        <RadzenDataGridColumn TItem="Invitation" Property="User" Title="User" Frozen="true" Width="200px" />
+        <RadzenDataGridColumn TItem="Invitation" Property="Code" Title="Code" Frozen="true" Width="200px" />
+        <RadzenDataGridColumn TItem="Invitation" Property="Expiration" Title="Expires" Frozen="true" Width="200px" FormatString="{0:MM/dd/yyyy}"/>
+        <RadzenDataGridColumn TItem="Invitation" Property="Claimed" Title="Claimed" Frozen="true" Width="200px" />
+        <RadzenDataGridColumn TItem="Invitation" Property="Notes" Title="Notes" Frozen="true" Width="200px" />
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+
+    private IEnumerable<Invitation>? invitations;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        invitations = invitationService.SelectAll();
+    }
+
+}

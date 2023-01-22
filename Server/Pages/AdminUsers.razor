@@ -1,0 +1,28 @@
+﻿@page "/admin_users"
+@using BookClub.Models
+@using BookClub.Services.Interfaces
+@inject IUserService userService
+
+<PageTitle>Users</PageTitle>
+
+<RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@users" TItem="User" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <Columns>
+        <RadzenDataGridColumn TItem="User" Property="LastName" Title="Last Name" Frozen="true" Width="200px" />
+        <RadzenDataGridColumn TItem="User" Property="FirstName" Title="First Name" Frozen="true" Width="200px" />
+        <RadzenDataGridColumn TItem="User" Property="AboutMe" Title="About Me" Frozen="true" Width="200px" />
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+
+    private IEnumerable<User>? users;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        users = userService.SelectAll();
+    }
+
+}

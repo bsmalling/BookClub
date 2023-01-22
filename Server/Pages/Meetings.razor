@@ -5,10 +5,21 @@
 
 <PageTitle>Meetings</PageTitle>
 
-<RadzenDataGrid AllowRowSelectOnRowClick="true" AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
-                Data="@meetings" TItem="Meeting" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+<RadzenDataGrid AllowFiltering="true"
+                AllowColumnResize="true"
+                AllowAlternatingRows="false"
+                FilterMode="FilterMode.Advanced"
+                AllowSorting="true"
+                PageSize="5"
+                AllowPaging="true"
+                PagerHorizontalAlign="HorizontalAlign.Left"
+                ShowPagingSummary="true"
+                ColumnWidth="300px"
+                LogicalFilterOperator="LogicalFilterOperator.Or"
+                Data="@meetings"
+                TItem="Meeting">
     <Columns>
-        <RadzenDataGridColumn TItem="Meeting" Property="MeetTime" Title="Time" FormatString="{0:dddd, MMMM d, yyyy &#64; h:mm tt}" Width="160px" />
+        <RadzenDataGridColumn TItem="Meeting" Property="MeetTime" Title="Time" Width="160px" FormatString="{0:dddd, MMMM d, yyyy &#64; h:mm tt}" />
         <RadzenDataGridColumn TItem="Meeting" Property="Book.Title" Title="Title" Frozen="true" Width="200px" />
         <RadzenDataGridColumn TItem="Meeting" Property="Book.Author" Title="Author" Frozen="true" Width="200px" />
         <RadzenDataGridColumn TItem="Meeting" Property="Host" Title="Host" Frozen="true" Width="160px" />

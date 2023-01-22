@@ -1,0 +1,29 @@
+﻿@page "/books"
+@using BookClub.Models;
+@using BookClub.Services.Interfaces;
+@inject IBookService bookService
+
+<PageTitle>Books</PageTitle>
+
+<RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                Data="@books" TItem="Book" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <Columns>
+        <RadzenDataGridColumn TItem="Book" Property="Title" Title="Title" Frozen="true" Width="200px" />
+        <RadzenDataGridColumn TItem="Book" Property="Author" Title="Author" Frozen="true" Width="200px" />
+        <RadzenDataGridColumn TItem="Book" Property="Pages" Title="Pages" Frozen="true" Width="160px" />
+        <RadzenDataGridColumn TItem="Book" Property="Published" Title="Published" Frozen="true" Width="160px" FormatString="{0:mm/dd/yyyy}" />
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+
+    private IEnumerable<Book>? books;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        books = bookService.SelectAll();
+    }
+
+}
