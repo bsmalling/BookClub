@@ -42,56 +42,17 @@ namespace BookClub.Services
 
         public BM.Meeting? Read(int id, bool loadChildren = true)
         {
-            string sqlCommand = GetSqlCommand("Meetings/Read");
-            SqlCommand command = new SqlCommand(sqlCommand, m_context.GetConnection());
-            command.Parameters.AddWithValue("@Id", id);
+            return GetMeeting("Meetings/Read", null, loadChildren);
+        }
 
-            BM.Meeting? meeting = null;
-            using (SqlDataReader reader = command.ExecuteReader())
-            {
-                if (reader.Read())
-                {
-                    meeting = new BM.Meeting(
-                        (int)reader["Id"],
-                        (int)reader["BookId"],
-                        (int)reader["HostId"],
-                        (int)reader["LocationId"],
-                        (DateTime)reader["MeetTime"],
-                        ConvertDBVal<string>(reader["Description"])
-                    );
-                }
-            }
-            if (loadChildren && meeting != null)
-                LoadObjects(meeting);
-            return meeting;
+        public BM.Meeting? LastMeeting(DateTime? nowTime = null, bool loadChildren = true)
+        {
+            return GetMeeting("Meetings/LastMeeting", nowTime, loadChildren);
         }
 
         public BM.Meeting? NextMeeting(DateTime? nowTime = null, bool loadChildren = true)
         {
-            if (nowTime == null) nowTime = DateTime.Now;
-
-            string sqlCommand = GetSqlCommand("Meetings/NextMeeting");
-            SqlCommand command = new SqlCommand(sqlCommand, m_context.GetConnection());
-            command.Parameters.AddWithValue("@NowTime", nowTime);
-
-            BM.Meeting? meeting = null;
-            using (SqlDataReader reader = command.ExecuteReader())
-            {
-                if (reader.Read())
-                {
-                    meeting = new BM.Meeting(
-                        (int)reader["Id"],
-                        (int)reader["BookId"],
-                        (int)reader["HostId"],
-                        (int)reader["LocationId"],
-                        (DateTime)reader["MeetTime"],
-                        ConvertDBVal<string>(reader["Description"])
-                    );
-                }
-            }
-            if (loadChildren && meeting != null)
-                LoadObjects(meeting);
-            return meeting;
+            return GetMeeting("Meetings/NextMeeting", nowTime, loadChildren);
         }
 
         public bool Update(BM.Meeting meeting, bool loadChildren = true)
@@ -180,6 +141,34 @@ namespace BookClub.Services
                 foreach (var meeting in meetings)
                     LoadObjects(meeting);
             return meetings;
+        }
+
+        private BM.Meeting? GetMeeting(string query, DateTime? nowTime = null, bool loadChildren = true)
+        {
+            if (nowTime == null) nowTime = DateTime.Now;
+
+            string sqlCommand = GetSqlCommand(query);
+            SqlCommand command = new SqlCommand(sqlCommand, m_context.GetConnection());
+            command.Parameters.AddWithValue("@NowTime", nowTime);
+
+            BM.Meeting? meeting = null;
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    meeting = new BM.Meeting(
+                        (int)reader["Id"],
+                        (int)reader["BookId"],
+                        (int)reader["HostId"],
+                        (int)reader["LocationId"],
+                        (DateTime)reader["MeetTime"],
+                        ConvertDBVal<string>(reader["Description"])
+                    );
+                }
+            }
+            if (loadChildren && meeting != null)
+                LoadObjects(meeting);
+            return meeting;
         }
 
         private void LoadObjects(BM.Meeting meeting)

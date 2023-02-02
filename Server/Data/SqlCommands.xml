@@ -152,9 +152,13 @@
 			SELECT "Id", "BookId", "HostId", "LocationId", "MeetTime", "Description"
 			FROM "Meetings" WHERE "Id" = @Id;
 		</Read>
+		<LastMeeting>
+			SELECT TOP 1 "Id", "BookId", "HostId", "LocationId", "MeetTime", "Description"
+			FROM "Meetings" WHERE "MeetTime" &lt;= @NowTime ORDER BY "MeetTime" DESC
+		</LastMeeting>
 		<NextMeeting>
 			SELECT TOP 1 "Id", "BookId", "HostId", "LocationId", "MeetTime", "Description"
-			FROM "Meetings" WHERE "MeetTime" >= @NowTime ORDER BY "MeetTime" ASC
+			FROM "Meetings" WHERE "MeetTime" &gt;= @NowTime ORDER BY "MeetTime" ASC
 		</NextMeeting>
 		<Update>
 			UPDATE "Meetings" SET

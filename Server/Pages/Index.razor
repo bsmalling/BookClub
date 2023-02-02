@@ -7,28 +7,31 @@
 
 <AuthorizeView>
     <Authorized>
-        <h1>Welcome, FirstName!</h1>
+        <h1>Welcome!</h1>
+        <h4>GRIT Book Club</h4>
+        <hr />
         @if (nextMeeting != null)
         {
             <table>
                 <tr>
-                    <td>Next Meeting:</td>
+                    <td><b>Next Meeting:</b></td>
                     <td>@nextMeeting</td>
                 </tr>
                 <tr>
-                    <td>Book:</td>
+                    <td><b>Book:</b></td>
                     <td>@nextMeeting.Book?.Title</td>
                 </tr>
                 <tr>
-                    <td>Author:</td>
+                    <td><b>Author:</b></td>
                     <td>@nextMeeting.Book?.Author</td>
                 </tr>
+                <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
                 <tr>
-                    <td>Host:</td>
+                    <td><b>Host:</b></td>
                     <td>@nextMeeting.Host</td>
                 </tr>
                 <tr>
-                    <td>Address:</td>
+                    <td><b>Address:</b></td>
                     <td>@nextMeeting.Location?.Address1</td>
                 </tr>
                 @if (!String.IsNullOrEmpty(nextMeeting?.Location?.Address2))
@@ -41,6 +44,19 @@
                 <tr>
                     <td></td>
                     <td>@cityStateZip</td>
+                </tr>
+                <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+                <tr>
+                    <td><b>Time Left:</b></td>
+                    <td>@timeUntilMeeting</td>
+                </tr>
+                <tr>
+                    <td><b>Progress Goals:</b></td>
+                    <td>@average</td>
+                </tr>
+                <tr>
+                    <td><b>On Progress:</b></td>
+                    <td>@onProgress</td>
                 </tr>
             </table>
         }
@@ -74,7 +90,10 @@
 @code {
 
     private Meeting? nextMeeting;
+    private string? timeUntilMeeting;
     private string? cityStateZip;
+    private string onProgress = "-";
+    private string average = "-";
 
     protected override void OnInitialized()
     {
@@ -83,8 +102,30 @@
         nextMeeting = meetingService.NextMeeting();
         if (nextMeeting != null)
         {
+            TimeSpan timeLeft = nextMeeting.MeetTime - DateTime.Now;
+            timeUntilMeeting = timeLeft.ToString("%d") + " days, " + timeLeft.ToString("%h") + " hours.";
+
             cityStateZip = nextMeeting.Location?.City + ", " + nextMeeting.Location?.State;
             if (nextMeeting.Location?.Zip != null) cityStateZip += "  " + nextMeeting.Location.Zip;
+            if (nextMeeting.Book?.Pages == null) return;
+
+            var lastMeeting = meetingService.LastMeeting();
+            if (lastMeeting == null) return;
+
+            TimeSpan timeRead = DateTime.Now - lastMeeting.MeetTime;
+            double difference = (nextMeeting.MeetTime - lastMeeting.MeetTime).TotalDays;
+            if (difference > 0.0)
+            {
+                int pages = nextMeeting.Book.Pages.Value;
+                double percentageRead = timeRead.TotalDays / difference;
+                double percentageLeft = timeLeft.TotalDays / difference;
+
+                string pagesRead = Math.Round(percentageRead * pages).ToString("N0");
+                string pagesLeft = Math.Round(percentageLeft * pages).ToString("N0");
+                onProgress = "On page " + pagesRead + ", with " + pagesLeft + " pages to go.";
+                average = Math.Round(pages / difference).ToString("N0") + " pages/day or " +
+                    Math.Round(pages / difference * 7.0).ToString("N0") + " pages/week.";
+            }
         }
     }
 
