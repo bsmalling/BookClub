@@ -8,6 +8,9 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">SNARK!</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Account</a>
         </li>
         <li class="nav-item">
@@ -19,6 +22,9 @@
     else
     {
         <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">SNARK!</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
         </li>
         <li class="nav-item">
@@ -26,3 +32,4 @@
         </li>
     }
 </ul>
+<p>What is your name?</p>

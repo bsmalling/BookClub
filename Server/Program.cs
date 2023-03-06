@@ -17,24 +17,37 @@ using System.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 { // Begin local scope to prevent user secrets in memory.
+#if DEBUG
     var user_cs = builder.Configuration.GetConnectionString("UserBCDBCS") +
-        builder.Configuration["BOOKCLUB_USER_PWD"];
+        "Password=" + builder.Configuration["BOOKCLUB_USER_PWD"] + ";";
+    var admin_cs = builder.Configuration.GetConnectionString("AdminBCDBCS") +
+        "Password=" + builder.Configuration["BOOKCLUB_ADMIN_PWD"] + ";";
+
+    builder.Services.AddDbContextFactory<UserBookClubContext>(
+        options => options.UseSqlServer(user_cs));
+    builder.Services.AddDbContextFactory<AdminBookClubContext>(
+        options => options.UseSqlServer(admin_cs));
+#else
+    var user_cs = builder.Configuration.GetConnectionString("AZUserBCDBCS") +
+        "Password=" + builder.Configuration["AZBOOKCLUB_USER_PWD"] + ";";
     builder.Services.AddDbContextFactory<UserBookClubContext>(
         options => options.UseSqlServer(user_cs));
 
-    var admin_cs = builder.Configuration.GetConnectionString("AdminBCDBCS") +
-        builder.Configuration["BOOKCLUB_ADMIN_PWD"];
+    var admin_cs = builder.Configuration.GetConnectionString("AZAdminBCDBCS") +
+        "Password=" + builder.Configuration["AZBOOKCLUB_ADMIN_PWD"] + ";";
     builder.Services.AddDbContextFactory<AdminBookClubContext>(
         options => options.UseSqlServer(admin_cs));
+#endif
 } // End local scope to prevent user secrets in memory.
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
+    .AddRoleManager<RoleManager<IdentityRole>>()
     .AddEntityFrameworkStores<AdminBookClubContext>();
-    // .AddRoles<IdentityRole>();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<AppUser>>();
 builder.Services.AddScoped<IBookService, BookService>(ServiceFactories.CreateBookService);
 builder.Services.AddScoped<ICommentService, CommentService>(ServiceFactories.CreateCommentService);
 builder.Services.AddScoped<ILocationService, LocationService>(ServiceFactories.CreateLocationService);
@@ -50,17 +63,18 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-if (app.Environment.IsDevelopment())
-{
+//if (app.Environment.IsDevelopment())
+//{
+    app.UseDeveloperExceptionPage();
     app.UseMigrationsEndPoint();
     app.UseSwagger();
     app.UseSwaggerUI();
-}
-else
-{
-    app.UseExceptionHandler("/Error");
-    app.UseHsts();
-}
+//}
+//else
+//{
+//    app.UseExceptionHandler("/Error");
+//    app.UseHsts();
+//}
 
 app.UseHttpsRedirection();
 
@@ -68,6 +82,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

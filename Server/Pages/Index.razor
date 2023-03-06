@@ -1,14 +1,16 @@
 ﻿@page "/"
 @using BookClub.Models;
 @using BookClub.Services.Interfaces;
+@using System.Security.Claims;
+@using Microsoft.AspNetCore.Identity;
 @inject IMeetingService meetingService
 
-<PageTitle>Home</PageTitle>
+<PageTitle>BookClub</PageTitle>
 
 <AuthorizeView>
     <Authorized>
-        <h1>Welcome!</h1>
-        <h4>GRIT Book Club</h4>
+        <h1>Welcome @firstName!</h1>
+        <h4>GRIT BookClub</h4>
         <hr />
         @if (nextMeeting != null)
         {
@@ -89,15 +91,29 @@
 
 @code {
 
+    private string firstName = "reader";
     private Meeting? nextMeeting;
     private string? timeUntilMeeting;
     private string? cityStateZip;
     private string onProgress = "-";
     private string average = "-";
 
-    protected override void OnInitialized()
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    protected async override void OnInitialized()
     {
         base.OnInitialized();
+
+        var user = (await authenticationStateTask).User;
+        foreach (var claim in user.Claims)
+        {
+            if (claim.Type == ClaimTypes.GivenName)
+            {
+                firstName = claim.Value;
+                break;
+            }
+        }
 
         nextMeeting = meetingService.NextMeeting();
         if (nextMeeting != null)

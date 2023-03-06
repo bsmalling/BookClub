@@ -6,13 +6,15 @@ using Microsoft.Extensions.Configuration;
 using BookClub.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Server.Areas.Identity;
 
 namespace BookClub.Contexts
 {
 
-    public abstract class BookClubContext : IdentityDbContext
+    public abstract class BookClubContext : IdentityDbContext<AppUser>
     {
 
+        public const string GUEST_ROLE = "GUEST";
         public const string USER_ROLE  = "USER";
         public const string POWER_ROLE = "POWER";
         public const string ADMIN_ROLE = "ADMIN";

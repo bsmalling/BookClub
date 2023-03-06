@@ -40,7 +40,10 @@ namespace Server.Data.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    FirstName = table.Column<string>(maxLength: 48, nullable: true),
+                    LastName = table.Column<string>(maxLength: 64, nullable: true),
+                    AboutMe = table.Column<string>(maxLength: 512, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -188,6 +191,12 @@ namespace Server.Data.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "LastNameIndex",
+                table: "AspNetUsers",
+                column: "LastName",
                 unique: true);
         }
 

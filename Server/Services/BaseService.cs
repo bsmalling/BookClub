@@ -11,6 +11,9 @@ using System.Data.SqlTypes;
 
 using BookClub.Models;
 using BookClub.Contexts;
+using System.Resources;
+using System.Collections;
+using System.Reflection;
 
 namespace BookClub.Services
 {
@@ -39,15 +42,28 @@ namespace BookClub.Services
 
         private XmlDocument LoadSqlCommands()
         {
+#if DEBUG
             using (var reader = new System.IO.StreamReader("Data/SqlCommands.xml"))
             {
                 var sqlCommands = new XmlDocument();
                 sqlCommands.LoadXml(reader.ReadToEnd());
                 return sqlCommands;
             }
+#else
+            var assembly = Assembly.GetExecutingAssembly();
+            string[] rn = assembly.GetManifestResourceNames();
+
+            using (Stream stream = assembly.GetManifestResourceStream("Server.Data.SqlCommands.xml"))
+            using (var reader = new StreamReader(stream))
+            {
+                var sqlCommands = new XmlDocument();
+                sqlCommands.LoadXml(reader.ReadToEnd());
+                return sqlCommands;
+            }
+#endif
         }
 
-        protected string GetSqlCommand(string path)
+        protected string? GetSqlCommand(string path)
         {
             return s_sqlCommands.DocumentElement.SelectSingleNode(path)?.InnerText;
         }
