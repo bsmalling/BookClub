@@ -46,7 +46,7 @@ builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireCo
     .AddRoleManager<RoleManager<IdentityRole>>()
     .AddEntityFrameworkStores<UserBookClubContext>();
 builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
+builder.Services.AddServerSideBlazor(); // .AddCircuitOptions(option => { option.DetailedErrors = true; });
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<AppUser>>();
 builder.Services.AddScoped<IBookService, BookService>(ServiceFactories.CreateBookService);
 builder.Services.AddScoped<ICommentService, CommentService>(ServiceFactories.CreateCommentService);

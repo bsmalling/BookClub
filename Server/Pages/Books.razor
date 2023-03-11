@@ -16,13 +16,12 @@
                 ShowPagingSummary="true"
                 Data="@books"
                 TItem="Book"
-                ColumnWidth="300px"
                 LogicalFilterOperator="LogicalFilterOperator.Or">
     <Columns>
-        <RadzenDataGridColumn TItem="Book" Property="Title" Title="Title" Frozen="true" Width="200px" />
-        <RadzenDataGridColumn TItem="Book" Property="AuthorByLast" Title="Author" Frozen="true" Width="200px" />
-        <RadzenDataGridColumn TItem="Book" Property="Pages" Title="Pages" Frozen="true" Width="160px" />
-        <RadzenDataGridColumn TItem="Book" Property="Published" Title="Published" Frozen="true" Width="160px" FormatString="{0:mm/dd/yyyy}" />
+        <RadzenDataGridColumn TItem="Book" Property="Title" Title="Title" Frozen="true" Width="250px" />
+        <RadzenDataGridColumn TItem="Book" Property="AuthorByLast" Title="Author" Frozen="true" Width="150px" />
+        <RadzenDataGridColumn TItem="Book" Property="Pages" Title="Pages" Frozen="true" Width="80px" />
+        <RadzenDataGridColumn TItem="Book" Property="Published" Title="Published" Frozen="true" Width="120px" FormatString="{0:MM/dd/yyyy}" />
     </Columns>
 </RadzenDataGrid>
 
