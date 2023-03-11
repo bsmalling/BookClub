@@ -5,8 +5,19 @@
 
 <PageTitle>Users</PageTitle>
 
-<RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
-                Data="@users" TItem="User" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+<RadzenDataGrid AllowFiltering="true"
+                AllowColumnResize="true"
+                AllowAlternatingRows="false"
+                FilterMode="FilterMode.Advanced"
+                AllowSorting="true"
+                PageSize="10"
+                AllowPaging="true"
+                PagerHorizontalAlign="HorizontalAlign.Left"
+                ShowPagingSummary="true"
+                Data="@users"
+                TItem="User"
+                ColumnWidth="300px"
+                LogicalFilterOperator="LogicalFilterOperator.Or">
     <Columns>
         <RadzenDataGridColumn TItem="User" Property="LastName" Title="Last Name" Frozen="true" Width="200px" />
         <RadzenDataGridColumn TItem="User" Property="FirstName" Title="First Name" Frozen="true" Width="200px" />

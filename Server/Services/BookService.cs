@@ -28,7 +28,8 @@ namespace BookClub.Services
 
             SqlCommand command = new SqlCommand(sqlCommand, m_context.GetConnection());
             command.Parameters.AddWithValue("@Title", book.Title);
-            command.Parameters.AddWithValue("@Author", book.Author);
+            command.Parameters.AddWithValue("@AuthorFirst", book.AuthorFirst);
+            command.Parameters.AddWithValue("@AuthorLast", book.AuthorLast);
             command.Parameters.AddWithValue("@Description", book.Description);
             command.Parameters.AddWithValue("@Pages", book.Pages);
             command.Parameters.AddWithValue("@ISBN", book.ISBN);
@@ -57,7 +58,8 @@ namespace BookClub.Services
                     book = new BM.Book(
                         (int)reader["Id"],
                         (string)reader["Title"],
-                        (string)reader["Author"],
+                        (string)reader["AuthorFirst"],
+                        (string)reader["AuthorLast"],
                         ConvertDBVal<string>(reader["Description"]),
                         (int?)reader["Pages"],
                         ConvertDBVal<string>(reader["ISBN"]),
@@ -79,7 +81,8 @@ namespace BookClub.Services
             SqlCommand command = new SqlCommand(sqlCommand, m_context.GetConnection());
             command.Parameters.AddWithValue("@Id", book.Id);
             command.Parameters.AddWithValue("@Title", book.Title);
-            command.Parameters.AddWithValue("@Author", book.Author);
+            command.Parameters.AddWithValue("@AuthorFirst", book.AuthorFirst);
+            command.Parameters.AddWithValue("@AuthorLast", book.AuthorLast);
             command.Parameters.AddWithValue("@Description", book.Description);
             command.Parameters.AddWithValue("@Pages", book.Pages);
             command.Parameters.AddWithValue("@ISBN", book.ISBN);
@@ -149,7 +152,8 @@ namespace BookClub.Services
                     var book = new BM.Book(
                         (int)reader["Id"],
                         (string)reader["Title"],
-                        (string)reader["Author"],
+                        (string)reader["AuthorFirst"],
+                        (string)reader["AuthorLast"],
                         ConvertDBVal<string>(reader["Description"]),
                         (int?)reader["Pages"],
                         ConvertDBVal<string>(reader["ISBN"]),

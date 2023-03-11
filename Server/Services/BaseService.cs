@@ -42,14 +42,6 @@ namespace BookClub.Services
 
         private XmlDocument LoadSqlCommands()
         {
-#if DEBUG
-            using (var reader = new System.IO.StreamReader("Data/SqlCommands.xml"))
-            {
-                var sqlCommands = new XmlDocument();
-                sqlCommands.LoadXml(reader.ReadToEnd());
-                return sqlCommands;
-            }
-#else
             var assembly = Assembly.GetExecutingAssembly();
             string[] rn = assembly.GetManifestResourceNames();
 
@@ -60,7 +52,6 @@ namespace BookClub.Services
                 sqlCommands.LoadXml(reader.ReadToEnd());
                 return sqlCommands;
             }
-#endif
         }
 
         protected string? GetSqlCommand(string path)

@@ -105,6 +105,7 @@
     {
         base.OnInitialized();
 
+        // Get user's first name
         var user = (await authenticationStateTask).User;
         foreach (var claim in user.Claims)
         {
@@ -115,6 +116,7 @@
             }
         }
 
+        // Calculate the next meeting date
         nextMeeting = meetingService.NextMeeting();
         if (nextMeeting != null)
         {

@@ -20,8 +20,11 @@ namespace BookClub.Models
         public string Title { get; set; }
 
         [Required]
-        [MaxLength(100), MinLength(1)]
-        public string Author { get; set; }
+        [MaxLength(48), MinLength(1)]
+        public string AuthorFirst { get; set; }
+
+        [MaxLength(64)]
+        public string AuthorLast { get; set; }
 
         [MaxLength(500)]
         public string? Description { get; set; }
@@ -56,7 +59,8 @@ namespace BookClub.Models
         public Book(
             int id,
             string title,
-            string author,
+            string authorFirst,
+            string authorLast,
             string? description,
             int? pages,
             string? isbn,
@@ -66,13 +70,40 @@ namespace BookClub.Models
         {
             Id = id;
             Title = title;
-            Author = author;
+            AuthorFirst = authorFirst;
+            AuthorLast = authorLast;
             Description = description;
             Pages = pages;
             ISBN = isbn;
             ASIN = asin;
             ThumbnailId = thumbnailId;
             Published = published;
+        }
+
+        [NotMapped]
+        [JsonIgnore]
+        public string Author
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(AuthorLast))
+                    return AuthorFirst;
+                else
+                    return AuthorFirst + " " + AuthorLast;
+            }
+        }
+
+        [NotMapped]
+        [JsonIgnore]
+        public string AuthorByLast
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(AuthorLast))
+                    return AuthorFirst;
+                else
+                    return AuthorLast + ", " + AuthorFirst;
+            }
         }
 
         public override bool Equals(object? obj)
@@ -85,7 +116,7 @@ namespace BookClub.Models
 
         public override int GetHashCode()
         {
-            return (Id.ToString() + Title + Author).GetHashCode();
+            return (Id.ToString() + Title).GetHashCode();
         }
 
         public override string ToString()

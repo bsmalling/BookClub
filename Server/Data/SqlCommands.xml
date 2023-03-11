@@ -8,19 +8,20 @@
 	<Books>
 		<Create>
 			INSERT INTO "Books"
-				("Title", "Author", "Description", "Pages", "ISBN", "ASIN", "ThumbnailId", "Published")
+				("Title", "AuthorFirst", "AuthorLast", "Description", "Pages", "ISBN", "ASIN", "ThumbnailId", "Published")
 			VALUES
-				(@Title, @Author, @Description, @Pages, @ISBN, @ASIN, @ThumbnailId, @Published);
+				(@Title, @AuthorFirst, @AuthorLast, @Description, @Pages, @ISBN, @ASIN, @ThumbnailId, @Published);
 			SELECT scope_identity();
 		</Create>
 		<Read>
-			SELECT "Id", "Title", "Author", "Description", "Pages", "ISBN", "ASIN", "ThumbnailId", "Published"
+			SELECT "Id", "Title", "AuthorFirst", "AuthorLast", "Description", "Pages", "ISBN", "ASIN", "ThumbnailId", "Published"
 			FROM "Books" WHERE "Id" = @Id AND "Deleted" = 0;
 		</Read>
 		<Update>
 			UPDATE "Books" SET
 				"Title" = @Title,
-				"Author" = @Author,
+				"AuthorFirst" = @AuthorFirst,
+				"AuthorLast" = @AuthorLast,
 				"Description" = @Description,
 				"Pages" = @Pages,
 				"ISBN" = @ISBN,
@@ -34,7 +35,7 @@
 			UPDATE "Books" SET "Deleted" = 1 WHERE "Id" = @Id AND "Deleted" = 0;
 		</Delete>
 		<SelectAll>
-			SELECT "Id", "Title", "Author", "Description", "Pages", "ISBN", "ASIN", "ThumbnailId", "Published"
+			SELECT "Id", "Title", "AuthorFirst", "AuthorLast", "Description", "Pages", "ISBN", "ASIN", "ThumbnailId", "Published"
 			FROM "Books" WHERE "Deleted" = 0
 			ORDER BY "Title";
 		</SelectAll>

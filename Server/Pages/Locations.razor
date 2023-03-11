@@ -5,8 +5,19 @@
 
 <PageTitle>Locations</PageTitle>
 
-<RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
-                Data="@locations" TItem="Location" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+<RadzenDataGrid AllowFiltering="true"
+                AllowColumnResize="true"
+                AllowAlternatingRows="false"
+                FilterMode="FilterMode.Advanced"
+                AllowSorting="true"
+                PageSize="10"
+                AllowPaging="true"
+                PagerHorizontalAlign="HorizontalAlign.Left"
+                ShowPagingSummary="true"
+                Data="@locations"
+                TItem="Location"
+                ColumnWidth="300px"
+                LogicalFilterOperator="LogicalFilterOperator.Or">
     <Columns>
         <RadzenDataGridColumn TItem="Location" Property="Address1" Title="Address1" Frozen="true" Width="200px" />
         <RadzenDataGridColumn TItem="Location" Property="Address2" Title="Address2" Frozen="true" Width="200px" />

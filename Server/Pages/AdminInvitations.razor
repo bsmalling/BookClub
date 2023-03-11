@@ -5,8 +5,19 @@
 
 <PageTitle>Invitations</PageTitle>
 
-<RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
-                Data="@invitations" TItem="Invitation" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+<RadzenDataGrid AllowFiltering="true"
+                AllowColumnResize="true"
+                AllowAlternatingRows="false"
+                FilterMode="FilterMode.Advanced"
+                AllowSorting="true"
+                PageSize="10"
+                AllowPaging="true"
+                PagerHorizontalAlign="HorizontalAlign.Left"
+                ShowPagingSummary="true"
+                Data="@invitations"
+                TItem="Invitation"
+                ColumnWidth="300px"
+                LogicalFilterOperator="LogicalFilterOperator.Or">
     <Columns>
         <RadzenDataGridColumn TItem="Invitation" Property="User" Title="User" Frozen="true" Width="200px" />
         <RadzenDataGridColumn TItem="Invitation" Property="Code" Title="Code" Frozen="true" Width="200px" />
