@@ -5,6 +5,14 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-Server-cea3a2fd-5b24-4e2f-a20c-6c33d8b3024c</UserSecretsId>
+
+    <Company>Island of Misfit Toys</Company>
+    <Product>BookClub</Product>
+    <ProductName>BookClub</ProductName>
+    <Title>BookClub</Title>
+
+    <AssemblyTitle>BookClub</AssemblyTitle>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />

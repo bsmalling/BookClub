@@ -28,13 +28,12 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddDbContextFactory<UserBookClubContext>(
         options => options.UseSqlServer(user_cs));
 #else
-    var admin_cs = builder.Configuration.GetConnectionString("AZAdminBCDBCS") +
-        "Password=" + builder.Configuration["AZBOOKCLUB_ADMIN_PWD"] + ";";
+    var admin_cs = builder.Configuration.GetConnectionString("AZAdminBCDBCS");
     builder.Services.AddDbContextFactory<AdminBookClubContext>(
         options => options.UseSqlServer(admin_cs));
 
-    var user_cs = builder.Configuration.GetConnectionString("AZUserBCDBCS") +
-        "Password=" + builder.Configuration["AZBOOKCLUB_USER_PWD"] + ";";
+    var user_cs = builder.Configuration.GetConnectionString("AZUserBCDBCS");
+    user_cs = admin_cs;
     builder.Services.AddDbContextFactory<UserBookClubContext>(
         options => options.UseSqlServer(user_cs));
 #endif
@@ -46,7 +45,7 @@ builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireCo
     .AddRoleManager<RoleManager<IdentityRole>>()
     .AddEntityFrameworkStores<UserBookClubContext>();
 builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor(); // .AddCircuitOptions(option => { option.DetailedErrors = true; });
+builder.Services.AddServerSideBlazor().AddCircuitOptions(option => { option.DetailedErrors = true; });
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<AppUser>>();
 builder.Services.AddScoped<IBookService, BookService>(ServiceFactories.CreateBookService);
 builder.Services.AddScoped<ICommentService, CommentService>(ServiceFactories.CreateCommentService);
