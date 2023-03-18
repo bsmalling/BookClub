@@ -41,6 +41,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -65,8 +66,6 @@
     <Content Remove="wwwroot\images\" />
     <Content Remove="wwwroot\js\" />
     <Content Remove="wwwroot\ts\" />
-    <Content Remove="wwwroot\js\app.js.map" />
-    <Content Remove="wwwroot\js\app.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\images\" />

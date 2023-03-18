@@ -29,12 +29,12 @@ public class InvitationsController : ControllerBase
         }
     }
 
-    [HttpGet("user")]
-    public IList<Invitation> GetByUser(int userId)
+    [HttpGet("id")]
+    public IList<Invitation> GetByUser(int id)
     {
         using (var invitationService = new InvitationService(_context))
         {
-            return invitationService.ReadByUser(userId, false);
+            return invitationService.ReadByUser(id, false);
         }
     }
 

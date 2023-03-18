@@ -4,6 +4,7 @@
 @using System.Security.Claims;
 @using Microsoft.AspNetCore.Identity;
 @inject IMeetingService meetingService
+@inject UserManager<Areas.Identity.AppUser> userManager
 
 <PageTitle>BookClub</PageTitle>
 
@@ -91,7 +92,7 @@
 
 @code {
 
-    private string firstName = "reader";
+    private string? firstName = null;
     private Meeting? nextMeeting;
     private string? timeUntilMeeting;
     private string? cityStateZip;
@@ -105,16 +106,7 @@
     {
         base.OnInitialized();
 
-        // Get user's first name
-        var user = (await authenticationStateTask).User;
-        foreach (var claim in user.Claims)
-        {
-            if (claim.Type == ClaimTypes.GivenName)
-            {
-                firstName = claim.Value;
-                break;
-            }
-        }
+        firstName = await GetFirstNameAsync();
 
         // Calculate the next meeting date
         nextMeeting = meetingService.NextMeeting();
@@ -145,6 +137,31 @@
                     Math.Round(pages / difference * 7.0).ToString("N0") + " pages/week.";
             }
         }
+    }
+
+    private async Task<string> GetFirstNameAsync()
+    {
+        string? firstName = null;
+
+        // Try getting the AppUser FirstName property
+        var user = (await authenticationStateTask).User;
+        var appUser = userManager.GetUserAsync(user).Result;
+        if (appUser != null) firstName = appUser.FirstName;
+
+        if (firstName == null)
+        {
+            // Check the Principal's claims
+            foreach (var claim in user.Claims)
+            {
+                if (claim.Type == ClaimTypes.GivenName)
+                {
+                    firstName = claim.Value;
+                    break;
+                }
+            }
+            if (firstName == null) firstName = "reader";
+        }
+        return firstName;
     }
 
 }

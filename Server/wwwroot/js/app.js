@@ -1,18 +1,10 @@
-function TSButton() {
-    var name = "Fred";
-    document.getElementById("ts-example").innerHTML = greeter(user);
-}
-var Student = /** @class */ (function () {
-    function Student(firstName, middleInitial, lastName) {
-        this.firstName = firstName;
-        this.middleInitial = middleInitial;
-        this.lastName = lastName;
-        this.fullName = firstName + " " + middleInitial + " " + lastName;
+function validateInvitationCode(event) {
+    var input = document.getElementById('InvitationCodeInput');
+    if (input.innerText == 'grit') {
+        window.location.href = 'Identity/Account/Register';
     }
-    return Student;
-}());
-function greeter(person) {
-    return "Hello, " + person.firstName + " " + person.lastName;
+    else {
+        input.innerText = '';
+    }
 }
-var user = new Student("Fred", "M.", "Smith");
 //# sourceMappingURL=app.js.map

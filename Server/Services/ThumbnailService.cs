@@ -13,6 +13,7 @@ using MMG = Microsoft.Maui.Graphics;
 using BM = BookClub.Models;
 using BookClub.Services.Interfaces;
 using BookClub.Contexts;
+using System.Drawing;
 
 namespace BookClub.Services
 {
@@ -28,7 +29,7 @@ namespace BookClub.Services
 
         public BM.Thumbnail Create(BM.Thumbnail thumbnail)
         {
-            string sqlCommand = GetSqlCommand("Thumbnails/Create");
+            string? sqlCommand = GetSqlCommand("Thumbnails/Create");
 
             SqlCommand command = new SqlCommand(sqlCommand, m_context.GetConnection());
             var bytes = ImageToBytes(thumbnail.ImageObj);
@@ -42,7 +43,7 @@ namespace BookClub.Services
 
         public BM.Thumbnail? Read(int id)
         {
-            string sqlCommand = GetSqlCommand("Thumbnails/Read");
+            string? sqlCommand = GetSqlCommand("Thumbnails/Read");
             SqlCommand command = new SqlCommand(sqlCommand, m_context.GetConnection());
             command.Parameters.AddWithValue("@Id", id);
 
@@ -62,7 +63,7 @@ namespace BookClub.Services
 
         public bool Update(BM.Thumbnail thumbnail)
         {
-            string sqlCommand = GetSqlCommand("Thumbnails/Update");
+            string? sqlCommand = GetSqlCommand("Thumbnails/Update");
 
             SqlCommand command = new SqlCommand(sqlCommand, m_context.GetConnection());
             command.Parameters.AddWithValue("@Id", thumbnail.Id);
@@ -108,7 +109,7 @@ namespace BookClub.Services
 
         public bool Delete(int id)
         {
-            string sqlCommand = GetSqlCommand("Thumbnails/Delete");
+            string? sqlCommand = GetSqlCommand("Thumbnails/Delete");
 
             SqlCommand command = new SqlCommand(sqlCommand, m_context.GetConnection());
             command.Parameters.AddWithValue("@Id", id);
@@ -117,18 +118,19 @@ namespace BookClub.Services
             return command.ExecuteNonQuery() > 0;
         }
 
-        public static byte[]? ImageToBytes(MMG.IImage image)
+        public static byte[] ImageToBytes(MMG.IImage image)
         {
-            // TODO: To be completed...
-            return null;
+            // TODO: Should not be Windows platform only
+            ImageConverter imageConverter = new ImageConverter();
+            return (byte[])imageConverter.ConvertTo(image, typeof(byte[]));
         }
 
-        public static MMG.IImage BytesToImage(byte[] bytes)
+        public static Image BytesToImage(byte[] bytes)
         {
+            // TODO: Should not be Windows platform only
             using (MemoryStream ms = new MemoryStream(bytes))
             {
-                // TODO: To be completed...
-                return null;
+                return Image.FromStream(ms);
             }
         }
 
