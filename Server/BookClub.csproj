@@ -66,6 +66,8 @@
     <Content Remove="wwwroot\images\" />
     <Content Remove="wwwroot\js\" />
     <Content Remove="wwwroot\ts\" />
+    <Content Remove="wwwroot\js\app.js.map" />
+    <Content Remove="wwwroot\js\app.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\images\" />

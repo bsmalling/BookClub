@@ -45,7 +45,7 @@ namespace BookClub.Services
             var assembly = Assembly.GetExecutingAssembly();
             string[] rn = assembly.GetManifestResourceNames();
 
-            using (Stream stream = assembly.GetManifestResourceStream("Server.Data.SqlCommands.xml"))
+            using (Stream stream = assembly.GetManifestResourceStream("BookClub.Data.SqlCommands.xml"))
             using (var reader = new StreamReader(stream))
             {
                 var sqlCommands = new XmlDocument();

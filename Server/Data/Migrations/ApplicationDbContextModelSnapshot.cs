@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Server.Data.Migrations
+namespace BookClub.Data.Migrations
 {
     [DbContext(typeof(AdminBookClubContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -159,7 +159,7 @@ namespace Server.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Server.Areas.Identity.Data.WebAppUser", b =>
+            modelBuilder.Entity("BookClub.Areas.Identity.Data.WebAppUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -244,7 +244,7 @@ namespace Server.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Server.Areas.Identity.Data.WebAppUser", null)
+                    b.HasOne("BookClub.Areas.Identity.Data.WebAppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -253,7 +253,7 @@ namespace Server.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Server.Areas.Identity.Data.WebAppUser", null)
+                    b.HasOne("BookClub.Areas.Identity.Data.WebAppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -268,7 +268,7 @@ namespace Server.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Server.Areas.Identity.Data.WebAppUser", null)
+                    b.HasOne("BookClub.Areas.Identity.Data.WebAppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -277,7 +277,7 @@ namespace Server.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Server.Areas.Identity.Data.WebAppUser", null)
+                    b.HasOne("BookClub.Areas.Identity.Data.WebAppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

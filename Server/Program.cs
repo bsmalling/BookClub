@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Data.SqlClient;
-using Server.Areas.Identity;
-using Server.Data;
+using BookClub.Areas.Identity;
+using BookClub.Data;
 using System.Text;
 
 using BookClub.Common;

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
-namespace Server.Areas.Identity
+namespace BookClub.Areas.Identity
 {
 
 	public class AppUser : IdentityUser

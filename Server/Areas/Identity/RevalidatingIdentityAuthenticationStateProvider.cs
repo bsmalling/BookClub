@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 
-namespace Server.Areas.Identity;
+namespace BookClub.Areas.Identity;
 
 public class RevalidatingIdentityAuthenticationStateProvider<TUser>
     : RevalidatingServerAuthenticationStateProvider where TUser : class

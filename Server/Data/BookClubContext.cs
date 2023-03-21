@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using BookClub.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using Server.Areas.Identity;
+using BookClub.Areas.Identity;
 
 namespace BookClub.Contexts
 {

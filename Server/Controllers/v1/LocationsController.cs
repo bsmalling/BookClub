@@ -4,7 +4,7 @@ using BookClub.Models;
 using BookClub.Services;
 using BookClub.Contexts;
 
-namespace Server.Controllers.v1;
+namespace BookClub.Controllers.v1;
 
 [ApiController]
 [Route("api/v1/locations")]
