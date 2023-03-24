@@ -24,7 +24,7 @@ namespace BookClub.Models
         public string AuthorFirst { get; set; }
 
         [MaxLength(64)]
-        public string AuthorLast { get; set; }
+        public string? AuthorLast { get; set; }
 
         [MaxLength(500)]
         public string? Description { get; set; }
@@ -60,7 +60,7 @@ namespace BookClub.Models
             int id,
             string title,
             string authorFirst,
-            string authorLast,
+            string? authorLast,
             string? description,
             int? pages,
             string? isbn,

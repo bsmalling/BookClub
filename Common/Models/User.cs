@@ -58,7 +58,10 @@ namespace BookClub.Models
         {
             get
             {
-                return FirstName + " " + LastName;
+                if (String.IsNullOrEmpty(LastName))
+                    return FirstName;
+                else
+                    return FirstName + " " + LastName;
             }
         }
 

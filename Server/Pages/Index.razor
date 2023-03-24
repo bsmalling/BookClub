@@ -17,24 +17,24 @@
         {
             <table>
                 <tr>
-                    <td><b>Next Meeting:</b></td>
+                    <td><b>Next Meeting:</b>&nbsp;</td>
                     <td>@nextMeeting</td>
                 </tr>
                 <tr>
-                    <td><b>Book:</b></td>
+                    <td><b>Book:</b>&nbsp;</td>
                     <td>@nextMeeting.Book?.Title</td>
                 </tr>
                 <tr>
-                    <td><b>Author:</b></td>
+                    <td><b>Author:</b>&nbsp;</td>
                     <td>@nextMeeting.Book?.Author</td>
                 </tr>
                 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
                 <tr>
-                    <td><b>Host:</b></td>
+                    <td><b>Host:</b>&nbsp;</td>
                     <td>@nextMeeting.Host</td>
                 </tr>
                 <tr>
-                    <td><b>Address:</b></td>
+                    <td><b>Address:</b>&nbsp;</td>
                     <td>@nextMeeting.Location?.Address1</td>
                 </tr>
                 @if (!String.IsNullOrEmpty(nextMeeting?.Location?.Address2))
@@ -50,15 +50,15 @@
                 </tr>
                 <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
                 <tr>
-                    <td><b>Time Left:</b></td>
+                    <td><b>Time Left:</b>&nbsp;</td>
                     <td>@timeUntilMeeting</td>
                 </tr>
                 <tr>
-                    <td><b>Goals:</b></td>
+                    <td><b>Goals:</b>&nbsp;</td>
                     <td>@average</td>
                 </tr>
                 <tr>
-                    <td><b>Progress:</b></td>
+                    <td><b>On Progress:</b>&nbsp;</td>
                     <td>@onProgress</td>
                 </tr>
             </table>
@@ -132,7 +132,8 @@
 
                 string pagesRead = Math.Round(percentageRead * pages).ToString("N0");
                 string pagesLeft = Math.Round(percentageLeft * pages).ToString("N0");
-                onProgress = "On page " + pagesRead + ", with " + pagesLeft + " pages to go.";
+                onProgress = "On page " + pagesRead + ", with " + pagesLeft + " pages to go (" +
+                    (percentageRead * 100.0).ToString("N1") + "%).";
                 average = Math.Round(pages / difference).ToString("N0") + " pages/day or " +
                     Math.Round(pages / difference * 7.0).ToString("N0") + " pages/week.";
             }

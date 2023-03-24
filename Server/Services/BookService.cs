@@ -153,7 +153,7 @@ namespace BookClub.Services
                         (int)reader["Id"],
                         (string)reader["Title"],
                         (string)reader["AuthorFirst"],
-                        (string)reader["AuthorLast"],
+                        ConvertDBVal<string>(reader["AuthorLast"]),
                         ConvertDBVal<string>(reader["Description"]),
                         (int?)reader["Pages"],
                         ConvertDBVal<string>(reader["ISBN"]),
