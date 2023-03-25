@@ -21,16 +21,15 @@ namespace BookClub.Models
         [MaxLength(100), MinLength(1)]
         public string FirstName { get; set; }
 
-        [Required]
         [MaxLength(100), MinLength(1)]
-        public string LastName { get; set; }
-
-        [MaxLength(500)]
-        public string? AboutMe { get; set; }
+        public string? LastName { get; set; }
 
         [Required]
-        [MaxLength(256), MinLength(1)]
-        public string NormalizedUserName { get; set; }
+        [MaxLength(128)]
+        public string AspNetId { get; set; }
+
+        [Required]
+        public bool Deleted { get; set; }
 
         [NotMapped]
         [JsonIgnore]
@@ -41,15 +40,13 @@ namespace BookClub.Models
         public User(
             int id,
             string firstName,
-            string lastName,
-            string? aboutMe,
-            string normalizedUserName)
+            string? lastName,
+            string aspNetId)
         {
             Id = id;
             FirstName = firstName;
             LastName = lastName;
-            AboutMe = aboutMe;
-            NormalizedUserName = normalizedUserName;
+            AspNetId = aspNetId;
         }
 
         [NotMapped]
@@ -58,10 +55,20 @@ namespace BookClub.Models
         {
             get
             {
-                if (String.IsNullOrEmpty(LastName))
-                    return FirstName;
+                if (!Deleted)
+                {
+                    if (String.IsNullOrEmpty(LastName))
+                        return FirstName;
+                    else
+                        return FirstName + " " + LastName;
+                }
                 else
-                    return FirstName + " " + LastName;
+                {
+                    if (String.IsNullOrEmpty(LastName))
+                        return FirstName;
+                    else
+                        return FirstName + " " + LastName[0] + ".";
+                }
             }
         }
 
@@ -75,7 +82,7 @@ namespace BookClub.Models
 
         public override int GetHashCode()
         {
-            return (Id.ToString() + NormalizedUserName).GetHashCode();
+            return Id.ToString().GetHashCode();
         }
 
         public override string ToString()

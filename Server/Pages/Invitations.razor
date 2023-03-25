@@ -1,7 +1,10 @@
 ﻿@page "/invitations"
 @using BookClub.Models
 @using BookClub.Services.Interfaces
+@using Microsoft.AspNetCore.Identity;
+@inject IUserService userService
 @inject IInvitationService invitationService
+@inject UserManager<Areas.Identity.AppUser> userManager
 
 <PageTitle>Invitations</PageTitle>
 
@@ -27,13 +30,30 @@
 
 @code {
 
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
     private IEnumerable<Invitation>? invitations;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
 
-        invitations = invitationService.ReadByUser(1/*FIXME*/);
+        User? user = GetUserAsync().Result;
+        if (user != null)
+            invitations = invitationService.ReadByUser(user.Id);
+        else
+            invitations = new List<Invitation>();
+    }
+
+    private async Task<User?> GetUserAsync()
+    {
+        // Try getting the AppUser
+        var claimsPrinciple = (await authenticationStateTask).User;
+        var appUser = userManager.GetUserAsync(claimsPrinciple).Result;
+        if (appUser == null) return null;
+
+        return userService.GetByAspNetId(appUser.Id);
     }
 
 }

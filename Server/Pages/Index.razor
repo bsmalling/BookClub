@@ -92,15 +92,15 @@
 
 @code {
 
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
     private string? firstName = null;
     private Meeting? nextMeeting;
     private string? timeUntilMeeting;
     private string? cityStateZip;
     private string onProgress = "-";
     private string average = "-";
-
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     protected async override void OnInitialized()
     {

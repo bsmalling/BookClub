@@ -29,8 +29,7 @@ namespace BookClub.Services
             SqlCommand command = new SqlCommand(sqlCommand, m_context.GetConnection());
             command.Parameters.AddWithValue("@FirstName", user.FirstName);
             command.Parameters.AddWithValue("@LastName", user.LastName);
-            command.Parameters.AddWithValue("@AboutMe", user.AboutMe);
-            command.Parameters.AddWithValue("@NormalizedUserName", user.NormalizedUserName);
+            command.Parameters.AddWithValue("@AspNetId", user.AspNetId);
 
             int id = Convert.ToInt32(command.ExecuteScalar());
             user.Status = BM.ChangeStatus.None;
@@ -51,9 +50,30 @@ namespace BookClub.Services
                     var user = new BM.User(
                         (int)reader["Id"],
                         (string)reader["FirstName"],
-                        (string)reader["LastName"],
-                        ConvertDBVal<string>(reader["AboutMe"]),
-                        (string)reader["NormalizedUserName"]
+                        ConvertDBVal<string>(reader["LastName"]),
+                        (string)reader["AspNetId"]
+                    );
+                    return user;
+                }
+            }
+            return null;
+        }
+
+        public BM.User? GetByAspNetId(string aspNetId, bool leadChildren = true)
+        {
+            string sqlCommand = GetSqlCommand("Users/GetByAspNetId");
+            SqlCommand command = new SqlCommand(sqlCommand, m_context.GetConnection());
+            command.Parameters.AddWithValue("@AspNetId", aspNetId);
+
+            using (SqlDataReader reader = command.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    var user = new BM.User(
+                        (int)reader["Id"],
+                        (string)reader["FirstName"],
+                        ConvertDBVal<string>(reader["LastName"]),
+                        (string)reader["AspNetId"]
                     );
                     return user;
                 }
@@ -69,8 +89,7 @@ namespace BookClub.Services
             command.Parameters.AddWithValue("@Id", user.Id);
             command.Parameters.AddWithValue("@FirstName", user.FirstName);
             command.Parameters.AddWithValue("@LastName", user.LastName);
-            command.Parameters.AddWithValue("@AboutMe", user.AboutMe);
-            command.Parameters.AddWithValue("@NormalizedUserName", user.NormalizedUserName);
+            command.Parameters.AddWithValue("@AspNetId", user.AspNetId);
 
             if (command.ExecuteNonQuery() > 0)
             {
@@ -133,9 +152,8 @@ namespace BookClub.Services
                     var user = new BM.User(
                         (int)reader["Id"],
                         (string)reader["FirstName"],
-                        (string)reader["LastName"],
-                        ConvertDBVal<string>(reader["AboutMe"]),
-                        (string)reader["NormalizedUserName"]
+                        ConvertDBVal<string>(reader["LastName"]),
+                        (string)reader["AspNetId"]
                     );
                     users.Add(user);
                 }
