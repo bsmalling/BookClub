@@ -9,6 +9,8 @@
     "outDir": "wwwroot/js"
   },
   "include": [
-    "wwwroot/ts/**/*"
+    "wwwroot/ts/**/*.ts",
+    "wwwroot/ts/**/*.tsx",
+    "wwwroot/ts/**/*.vue"
   ]
 }

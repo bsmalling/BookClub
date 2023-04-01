@@ -5,6 +5,7 @@ const redirect = (url, asLink = true) =>
 
 function validateInvitationCode(ev) {
     let input = (<HTMLInputElement>document.getElementById("InvitationCodeInput"));
+    // This is temporary until I can make a server-side call
     if (input.value == "GRIT") {
         alert("Greetigns!");
         redirect("Identity/Account/Register");

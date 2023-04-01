@@ -79,6 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="wwwroot\ts\app.ts" />
+    <None Include="wwwroot\ts\vue-shim.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="JsLib\webpack.config.js" />
