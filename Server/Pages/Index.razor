@@ -79,16 +79,18 @@
             <table>
                 <tr>
                     <td>Invitation Code:</td>
-                    <td><input /></td>
+                    <td><input id="InvitationCodeInput" /></td>
                 </tr>
                 <tr>
                     <td></td>
-                    <td align="right"><button type="submit">Submit</button></td>
+                    <td align="right"><button class="btn btn-primary" onclick="validateInvitationCode()">Submit</button></td>
                 </tr>
             </table>
         </form>
     </NotAuthorized>
 </AuthorizeView>
+
+<div id="bookAppMount"></div>
 
 @code {
 
