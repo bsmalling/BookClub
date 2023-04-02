@@ -115,7 +115,7 @@
         if (nextMeeting != null)
         {
             TimeSpan timeLeft = nextMeeting.MeetTime - DateTime.Now;
-            timeUntilMeeting = timeLeft.ToString("%d") + " days, " + timeLeft.ToString("%h") + " hours.";
+            timeUntilMeeting = timeLeft.Days.ToString() + " days, " + timeLeft.Hours.ToString() + " hours.";
 
             cityStateZip = nextMeeting.Location?.City + ", " + nextMeeting.Location?.State;
             if (nextMeeting.Location?.Zip != null) cityStateZip += "  " + nextMeeting.Location.Zip;
